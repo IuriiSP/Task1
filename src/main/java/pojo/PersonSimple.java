@@ -1,4 +1,4 @@
-package service;
+package pojo;
 
 public class PersonSimple implements Iperson {
 
