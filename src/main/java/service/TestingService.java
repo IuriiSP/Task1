@@ -6,8 +6,10 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
 import pojo.User;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,6 +25,15 @@ public class TestingService {
             throw new IllegalArgumentException("Не удалось начать тест, т.к. поользователь какая-то хуита");
 
         prepareQuestionsFromCSV();
+        // вот этот блок кода не пашет и пишет, что стрим закрыт
+        try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))){
+            String answer = bufferedReader.readLine();
+            user.getUserAnswers().add(answer);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         System.out.println("и чего-то тут крутится, тестируется");
         System.out.println("и вот тебе результат, " + user.toString());

@@ -9,6 +9,6 @@ public class Main {
     public static void main(String[] args) {
         //User user = new UserService().createUser();
 
-        new TestingService().startTesting(new User("",""));
+        new TestingService().startTesting(new UserService().createUser());
     }
 }
