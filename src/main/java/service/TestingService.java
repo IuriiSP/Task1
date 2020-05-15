@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TestingService {
-
+    private int questionsCount = 0;
     private List<String> answers = Arrays.asList("a", "b", "c");
 
     public void startTesting(User user) {
@@ -28,15 +28,25 @@ public class TestingService {
         // если ранее Stream открывался и потом закрылся
         // UserService.createUser()
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
-            String answer = bufferedReader.readLine();
-            user.getUserAnswers().add(answer);
+            for (int i = 0; i < questionsCount; i++){
+                user.getUserAnswers().add(bufferedReader.readLine());
+
+            }
+//            String answer = bufferedReader.readLine();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        int rightAnswersCount = 0;
+        for (int i = 0; i < answers.size(); i++){
+            if (answers.get(i).equals(user.getUserAnswers().get(i))) rightAnswersCount++;
+        }
+        double rightAnswersPercent = (double)rightAnswersCount / (double)answers.size() * 100;
+        boolean isDone = false;
+        if (answers.equals(user.getUserAnswers())) isDone = true;
+        System.out.println(user.toString() + " Тест сдан? " + isDone + "; верных ответов: "
+                + rightAnswersCount + " , процент выполнения теста составил:" + Math.round(rightAnswersPercent) + "%");
 
-        System.out.println("и чего-то тут крутится, тестируется");
-        System.out.println("и вот тебе результат, " + user.toString());
     }
 
     public void prepareQuestionsFromCSV() {
@@ -47,6 +57,7 @@ public class TestingService {
             CSVReader reader = (new CSVReaderBuilder(new InputStreamReader(inputStream))).withSkipLines(1).withCSVParser(parser).build();
             //reader.readAll().forEach(this::createAndAddQuestionToList);
             List<String[]> strings = reader.readAll();
+            questionsCount = strings.size();
             for (String[] row: strings) {
                 showQuestionsFromRow(row);
             }
