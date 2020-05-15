@@ -6,7 +6,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamResource;
 import pojo.User;
 
 import java.io.BufferedReader;
@@ -26,11 +25,12 @@ public class TestingService {
 
         prepareQuestionsFromCSV();
         // вот этот блок кода не пашет и пишет, что стрим закрыт
-        try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))){
+        // если ранее Stream открывался и потом закрылся
+        // UserService.createUser()
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
             String answer = bufferedReader.readLine();
             user.getUserAnswers().add(answer);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
