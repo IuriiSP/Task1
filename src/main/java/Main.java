@@ -1,14 +1,14 @@
-import pojo.User;
-import service.TestingService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import service.IUserService;
 import service.UserService;
-
-import java.io.IOException;
 
 public class Main {
 
     public static void main(String[] args) {
-        //User user = new UserService().createUser();
-
-        new TestingService().startTesting(new UserService().createUser());
+        UserService service = new UserService();
+        service.startTest();
+//        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
+//        IUserService iUserService = context.getBean(IUserService.class);
+//        iUserService.startTest();
     }
 }

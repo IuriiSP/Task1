@@ -18,55 +18,52 @@ import java.util.List;
 public class TestingService {
     private int questionsCount = 0;
     private List<String> answers = Arrays.asList("a", "b", "c");
+    private List<String[]> questions;
+
+    public List<String> getAnswers() {
+        return answers;
+    }
+
+    public List<String[]> getQuestions() {
+        return questions;
+    }
 
     public void startTesting(User user) {
         if (user == null)
             throw new IllegalArgumentException("Не удалось начать тест, т.к. поользователь какая-то хуита");
 
         prepareQuestionsFromCSV();
-        // вот этот блок кода не пашет и пишет, что стрим закрыт
-        // если ранее Stream открывался и потом закрылся
-        // UserService.createUser()
+
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
             for (int i = 0; i < questionsCount; i++){
                 user.getUserAnswers().add(bufferedReader.readLine());
 
             }
-//            String answer = bufferedReader.readLine();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        int rightAnswersCount = 0;
-        for (int i = 0; i < answers.size(); i++){
-            if (answers.get(i).equals(user.getUserAnswers().get(i))) rightAnswersCount++;
-        }
-        double rightAnswersPercent = (double)rightAnswersCount / (double)answers.size() * 100;
-        boolean isDone = false;
-        if (answers.equals(user.getUserAnswers())) isDone = true;
-        System.out.println(user.toString() + " Тест сдан? " + isDone + "; верных ответов: "
-                + rightAnswersCount + " , процент выполнения теста составил:" + Math.round(rightAnswersPercent) + "%");
+
 
     }
 
-    public void prepareQuestionsFromCSV() {
+    public List<String[]> prepareQuestionsFromCSV() {
         try {
             ClassPathResource classPathResource = new ClassPathResource("/CSVTest.csv");
             InputStream inputStream = classPathResource.getInputStream();
             CSVParser parser = (new CSVParserBuilder()).withSeparator(';').build();
             CSVReader reader = (new CSVReaderBuilder(new InputStreamReader(inputStream))).withSkipLines(1).withCSVParser(parser).build();
             //reader.readAll().forEach(this::createAndAddQuestionToList);
-            List<String[]> strings = reader.readAll();
-            questionsCount = strings.size();
-            for (String[] row: strings) {
-                showQuestionsFromRow(row);
-            }
+            questions = reader.readAll();
+
+            return questions;
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    private void showQuestionsFromRow(String[] row) {
+    public void showQuestionsFromRow(String[] row) {
         if (row == null || row.length < 4)
             throw new IllegalArgumentException("Array length < 4 or null");
 
