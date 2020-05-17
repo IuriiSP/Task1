@@ -1,10 +1,11 @@
 package service;
 
+import org.springframework.stereotype.Component;
 import pojo.User;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
+@Component
 public class UserService implements IUserService {
     TestingService service = new TestingService();
     public void startTest(){
