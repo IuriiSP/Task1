@@ -1,16 +1,18 @@
 package service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pojo.User;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-@Component
+
+@Service
 public class UserService implements IUserService {
     TestingService service = new TestingService();
-    public void startTest(){
+
+    public void startTest() {
         service.prepareQuestionsFromCSV();
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.println("Введите имя");
             String name = reader.readLine();
             System.out.println("введите фамилию");

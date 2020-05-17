@@ -1,5 +1,5 @@
 package service;
 
 public interface IUserService {
-    public void startTest();
+    void startTest();
 }
