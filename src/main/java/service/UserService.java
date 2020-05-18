@@ -19,7 +19,7 @@ public class UserService implements IUserService {
             String lastName = reader.readLine();
             User user = new User(name, lastName);
 
-            for (int i = 0; i < service.getQuestions().size(); i++){
+            for (int i = 0; i < service.getQuestions().size(); i++) {
                 String[] transit = service.getQuestions().get(i);
                 service.showQuestionsFromRow(transit);
                 System.out.println(user.getName() + ", выберите вариант ответа");
@@ -28,17 +28,18 @@ public class UserService implements IUserService {
             }
 
             int rightAnswersCount = 0;
-            for (int i = 0; i < user.getUserAnswers().size(); i++){
+            for (int i = 0; i < user.getUserAnswers().size(); i++) {
                 if (service.getAnswers().get(i).equals(user.getUserAnswers().get(i))) rightAnswersCount++;
             }
-            double rightAnswersPercent = (double)rightAnswersCount / (double)user.getUserAnswers().size() * 100;
+            double rightAnswersPercent = (double) rightAnswersCount / (double) user.getUserAnswers().size() * 100;
             boolean isDone = false;
             if (service.getAnswers().equals(user.getUserAnswers())) isDone = true;
-            System.out.println(user.toString() + (isDone?", тест сдан успешно":", тест не сдан, попробуйте еще раз") + "\nверных ответов: "
-                    + rightAnswersCount + "\nпроцент выполнения теста составил:" + Math.round(rightAnswersPercent) + "%");
+            System.out.println(user.toString() + (isDone ? ", тест сдан успешно" : ", тест не сдан, попробуйте еще раз")
+                    + "\nверных ответов: "
+                    + rightAnswersCount + "\nпроцент выполнения теста составил:"
+                    + Math.round(rightAnswersPercent) + "%");
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

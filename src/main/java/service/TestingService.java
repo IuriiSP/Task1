@@ -28,34 +28,13 @@ public class TestingService {
         return questions;
     }
 
-    public void startTesting(User user) {
-        if (user == null)
-            throw new IllegalArgumentException("Не удалось начать тест, т.к. поользователь какая-то хуита");
-
-        prepareQuestionsFromCSV();
-
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
-            for (int i = 0; i < questionsCount; i++){
-                user.getUserAnswers().add(bufferedReader.readLine());
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
-    }
-
     public List<String[]> prepareQuestionsFromCSV() {
         try {
             ClassPathResource classPathResource = new ClassPathResource("/CSVTest.csv");
             InputStream inputStream = classPathResource.getInputStream();
             CSVParser parser = (new CSVParserBuilder()).withSeparator(';').build();
             CSVReader reader = (new CSVReaderBuilder(new InputStreamReader(inputStream))).withSkipLines(1).withCSVParser(parser).build();
-            //reader.readAll().forEach(this::createAndAddQuestionToList);
             questions = reader.readAll();
-
             return questions;
         } catch (IOException | CsvException e) {
             e.printStackTrace();
