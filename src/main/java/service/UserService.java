@@ -1,5 +1,6 @@
 package service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pojo.User;
 
@@ -8,7 +9,11 @@ import java.io.InputStreamReader;
 
 @Service
 public class UserService implements IUserService {
-    TestingService service = new TestingService();
+    private TestingService service;
+
+    public UserService(TestingService service) {
+        this.service = service;
+    }
 
     public void startTest() {
         service.prepareQuestionsFromCSV();

@@ -6,6 +6,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Service;
 import pojo.User;
 
 import java.io.BufferedReader;
@@ -14,7 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
-
+@Service
 public class TestingService {
     private int questionsCount = 0;
     private List<String> answers = Arrays.asList("a", "b", "c");
