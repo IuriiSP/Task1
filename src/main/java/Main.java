@@ -1,12 +1,13 @@
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import service.IUserService;
 import service.UserService;
 
 public class Main {
 
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext("service");
-        UserService userService = context.getBean(UserService.class);
+        IUserService userService = context.getBean(IUserService.class);
         userService.startTest();
     }
 }
