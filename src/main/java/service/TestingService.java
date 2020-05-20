@@ -6,16 +6,13 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Service;
-import pojo.User;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
-@Service
+//@Service
 public class TestingService {
     private int questionsCount = 0;
     private List<String> answers = Arrays.asList("a", "b", "c");
@@ -31,7 +28,7 @@ public class TestingService {
 
     public List<String[]> prepareQuestionsFromCSV() {
         try {
-            ClassPathResource classPathResource = new ClassPathResource("/CSVTest.csv");
+            ClassPathResource classPathResource = new ClassPathResource("/input_data/CSVTest.csv");
             InputStream inputStream = classPathResource.getInputStream();
             CSVParser parser = (new CSVParserBuilder()).withSeparator(';').build();
             CSVReader reader = (new CSVReaderBuilder(new InputStreamReader(inputStream))).withSkipLines(1).withCSVParser(parser).build();

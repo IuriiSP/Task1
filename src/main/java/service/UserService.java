@@ -1,33 +1,38 @@
 package service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import pojo.User;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Locale;
 
-@Service
+//@Service
 public class UserService implements IUserService {
     private TestingService service;
+    private MessageSource messageSource;
 
-    public UserService(TestingService service) {
+    public UserService(TestingService service, MessageSource messageSource) {
         this.service = service;
+        this.messageSource = messageSource;
     }
 
     public void startTest() {
         service.prepareQuestionsFromCSV();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.println("Введите имя");
+            printMessage("test.enterName",null);
             String name = reader.readLine();
-            System.out.println("введите фамилию");
+            printMessage("test.enterLastName", null);
             String lastName = reader.readLine();
             User user = new User(name, lastName);
 
             for (int i = 0; i < service.getQuestions().size(); i++) {
                 String[] transit = service.getQuestions().get(i);
                 service.showQuestionsFromRow(transit);
-                System.out.println(user.getName() + ", выберите вариант ответа");
+                printMessage("test.selectAnswer", null);
                 String answer = reader.readLine();
                 user.getUserAnswers().add(answer);
             }
@@ -43,11 +48,14 @@ public class UserService implements IUserService {
                     + "\nверных ответов: "
                     + rightAnswersCount + "\nпроцент выполнения теста составил:"
                     + Math.round(rightAnswersPercent) + "%");
+            printMessage("test.ended", new Integer[]{rightAnswersCount});
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    private void printMessage(String messageCode,Object[] parameters){
+        System.out.println(messageSource.getMessage(messageCode,parameters, Locale.ENGLISH));
+    }
 
 }
